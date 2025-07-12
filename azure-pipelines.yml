@@ -6,8 +6,12 @@
 trigger:
 - main
 
-pool:
-  vmImage: ubuntu-latest
+# pool:
+#   vmImage: ubuntu-latest
+
+pool: 
+  name: Own Agent Pool
+  demands: Agent.Name -equals vm-agent
 
 variables:
   VENV_DIR: '.venv_linux'
@@ -27,6 +31,7 @@ steps:
 - task: UsePythonVersion@0
   inputs:
     versionSpec: '3.12'
+  condition: ne(variables['Agent.Name'], 'vm-agent')
 
 # Set up Python & virtual environment
 - script: |
